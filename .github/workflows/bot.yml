@@ -1,0 +1,29 @@
+name: Bot de Futbol Automatizado
+
+on:
+  schedule:
+    # Se ejecuta automáticamente cada 30 minutos
+    - cron: '*/30 * * * *'
+  workflow_dispatch: # Permite que lo ejecutes a mano cuando quieras probar
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        uses: py-actions/pip-dependency-install@v5
+        with:
+          sub-directory: ""
+          path: requirements.txt
+          update-lockfile: false
+
+      - name: Ejecutar script
+        run: python bot.py
